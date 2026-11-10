@@ -223,11 +223,13 @@
 
             <div class="bg-sand p-space-lg rounded-2xl shadow-sm flex flex-col gap-space-md">
               <div class="flex items-center gap-3">
-                <div class="w-16 h-16 rounded-full bg-cover bg-center shrink-0 border-2 border-primary/20" style="background-image: url('agent.jpg')"></div>
+                <div class="w-12 h-12 rounded-2xl bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[26px]">verified_user</span>
+                </div>
                 <div class="flex flex-col">
-                  <span class="text-xs text-primary font-bold">대표 공인중개사</span>
-                  <span class="font-bold text-on-surface">고정숙 대표</span>
-                  <span class="text-xs text-outline">DH 골드 부동산</span>
+                  <span class="text-xs text-primary font-bold">부평 전문 공인중개사</span>
+                  <span class="font-bold text-on-surface">DH 골드 부동산</span>
+                  <span class="text-xs text-outline">안심 중개 파트너</span>
                 </div>
               </div>
               <p class="text-xs text-on-surface-variant leading-relaxed">
@@ -345,7 +347,7 @@
 
       listElem.innerHTML = filtered.map(post => {
         const summary = markdownToText(post.content || '').slice(0, 100);
-        const imgSrc = post.image || 'agent.jpg';
+        const imgSrc = post.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80';
         return `
           <article onclick="location.href='news-detail.html?id=${encodeURIComponent(post.id)}'" class="bg-surface-container-low hover:bg-surface-container transition-all rounded-2xl p-space-md md:p-space-lg shadow-sm flex flex-col sm:flex-row gap-space-md md:gap-space-lg items-start sm:items-center group cursor-pointer">
             <div class="w-full sm:w-48 h-40 sm:h-36 rounded-xl bg-cover bg-center shrink-0 overflow-hidden" style="background-image: url('${escapeHtml(imgSrc)}');"></div>

@@ -172,7 +172,7 @@
               </a>
             </div>
           </div>
-          <div class="w-full md:w-[450px] aspect-square rounded-3xl bg-cover bg-center shadow-xl relative overflow-hidden" style="background-image: url('agent.jpg');">
+          <div class="w-full md:w-[450px] aspect-square rounded-3xl bg-cover bg-center shadow-xl relative overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBHHDfrikyLfmEo15w1IFuO0HnjXzevJDYe_iRGRtOqUYF5AjLZvYM2oNYaa0QPJOVz5I-k9ovEXwDbJl8JY5jiHzhujrwPcqNscuDCqDFFdmQzX7pOnN9bgBPtsK6wMjYcMSI64nsiRXmipMoan4zjhC1wUEH-TIL9gxvQwSsNEDxjZfx1wXfSrY1Ox8N_3J0xa2Bahw5KmD87AqblfO05NJmlPa9yAUEgcPmPJznN');">
             <div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent"></div>
             <div class="absolute bottom-6 left-6 right-6 bg-surface/90 backdrop-blur-md p-space-lg rounded-2xl shadow-lg border border-outline-variant/20 flex items-center gap-space-md">
               <div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-on-primary shrink-0">
@@ -180,7 +180,6 @@
               </div>
               <div>
                 <span class="font-label-md text-label-md text-on-surface block">1:1 맞춤 중개, 컨설팅 진행중</span>
-                <span class="font-body-sm text-outline">대표 고정숙 공인중개사</span>
               </div>
             </div>
           </div>
@@ -281,7 +280,7 @@
 
       <section class="w-full py-16 md:py-24 bg-surface" id="about">
         <div class="max-w-7xl mx-auto px-gutter flex flex-col md:flex-row items-center gap-space-xl">
-          <div class="w-full max-w-sm mx-auto md:mx-0 rounded-3xl overflow-hidden shadow-xl aspect-square bg-cover bg-center" style="background-image: url('agent.jpg');"></div>
+          <div class="w-full max-w-sm mx-auto md:mx-0 rounded-3xl overflow-hidden shadow-xl aspect-square bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBfKSfGJgXVCk0fcO-Bj68lrJU49yCKZG1S49CPmRAF1FKOht70ytiX42TfEbrV4VjBDwzWiFLZpvjS4gHPvifypeY4VY8eb10jntuMOCUwjwu4x486qFkrTLA4TT2ie84H3NbijKngyuYXxzaVdORVmn-e7D1QwdpNW0AF1MFxwGymIoympWCNBqkDd8C2K_A81ONW8L7BrntQr7xsfiX2lxwu-4bfJMBIrMS7Qg4QlxmfcnDbRl84MQ');"></div>
           <div class="w-full md:w-1/2 flex flex-col gap-space-md">
             <span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Representative Director</span>
             <h2 class="font-headline-md text-headline-md text-on-surface">
@@ -442,7 +441,7 @@
         const top3 = posts.slice(0, 3);
         listElem.innerHTML = top3.map(post => {
           const summary = markdownToText(post.content || '').slice(0, 60);
-          const imgSrc = post.image || 'agent.jpg';
+          const imgSrc = post.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80';
           return `
             <a href="news-detail.html?id=${encodeURIComponent(post.id)}" class="bg-surface rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-space-md group">
               <div class="w-full h-44 rounded-xl bg-cover bg-center overflow-hidden mb-2" style="background-image: url('${escapeHtml(imgSrc)}')"></div>
