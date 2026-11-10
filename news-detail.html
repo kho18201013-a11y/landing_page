@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="web_standard" name="shell-type">
+  <title>소식 상세 - DH 골드 부동산</title>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      "darkMode": "class",
+      "theme": {
+        "extend": {
+          "colors": {
+            "on-surface-variant": "#45483a",
+            "surface-container-low": "#f4f4e9",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#faadf2",
+            "inverse-surface": "#2f312a",
+            "on-primary": "#ffffff",
+            "primary": "#394f00",
+            "secondary-fixed": "#f2e0c2",
+            "outline": "#757969",
+            "on-secondary-fixed-variant": "#51452f",
+            "primary-container": "#4f6814",
+            "on-tertiary-fixed-variant": "#6c2f6a",
+            "on-primary-fixed": "#141f00",
+            "on-tertiary-fixed": "#37003a",
+            "outline-variant": "#c5c8b6",
+            "surface-container-high": "#e9e9de",
+            "foreground": "#1c1a18",
+            "on-surface": "#1b1c16",
+            "tertiary-container": "#884885",
+            "accent-orange": "#ee6b17",
+            "surface-container": "#efeee3",
+            "background": "#faf9f4",
+            "on-tertiary-container": "#ffcaf7",
+            "on-secondary-container": "#6e6149",
+            "on-error": "#ffffff",
+            "surface": "#fafaef",
+            "surface-bright": "#fafaef",
+            "surface-dim": "#dbdbd0",
+            "on-secondary": "#ffffff",
+            "tertiary": "#6d306c",
+            "sand": "#ede9de",
+            "error-container": "#ffdad6",
+            "secondary": "#695d45",
+            "primary-fixed": "#cfee8b",
+            "on-primary-container": "#c7e684",
+            "surface-container-highest": "#e3e3d8",
+            "on-secondary-fixed": "#231a08",
+            "on-background": "#1b1c16",
+            "tertiary-fixed": "#ffd6f7",
+            "on-primary-fixed-variant": "#384e00",
+            "surface-variant": "#e3e3d8",
+            "secondary-fixed-dim": "#d5c5a7",
+            "on-error-container": "#93000a",
+            "surface-tint": "#4e6712",
+            "secondary-container": "#efdebf",
+            "primary-fixed-dim": "#b3d272",
+            "inverse-primary": "#b3d272",
+            "inverse-on-surface": "#f2f1e6",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2.5rem",
+            "margin": "2rem",
+            "gutter": "1.5rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "label-md": ["Satoshi", "sans-serif"],
+            "headline-sm": ["Nohemi", "sans-serif"],
+            "body-lg": ["Satoshi", "sans-serif"],
+            "headline-md": ["Nohemi", "sans-serif"],
+            "headline-lg": ["Nohemi", "sans-serif"],
+            "label-sm": ["Satoshi", "sans-serif"],
+            "body-sm": ["Satoshi", "sans-serif"],
+            "headline-lg-mobile": ["Nohemi", "sans-serif"],
+            "body-md": ["Satoshi", "sans-serif"]
+          },
+          "fontSize": {
+            "label-md": ["14px", {"lineHeight": "18px", "fontWeight": "700"}],
+            "headline-sm": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+            "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "500"}],
+            "headline-lg": ["40px", {"lineHeight": "50px", "fontWeight": "500"}],
+            "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "700"}],
+            "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+            "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nohemi:wght@100..900&family=Satoshi:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body class="bg-surface font-body-md text-on-surface pb-16 md:pb-0">
+  <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-20 max-w-7xl mx-auto px-gutter flex items-center justify-between">
+      <a class="flex items-center gap-space-sm" href="index.html">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+          <span class="material-symbols-outlined text-on-primary text-[24px]">home</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-headline-sm text-primary tracking-tight">DH 골드 부동산</span>
+          <span class="font-label-sm text-label-sm text-outline">부평 전문 공인중개사사무소</span>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-space-lg">
+        <a class="text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-space-sm min-h-[44px] flex items-center" href="index.html">홈</a>
+        <a class="text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-space-sm min-h-[44px] flex items-center font-bold text-primary" href="news.html">부동산 뉴스&amp;소식</a>
+        <a class="text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-space-sm min-h-[44px] flex items-center" href="index.html#about">사무소 소개</a>
+      </nav>
+      <div class="flex items-center gap-space-md">
+        <a class="hidden sm:flex items-center gap-space-sm bg-primary text-on-primary px-space-lg py-space-sm rounded-xl font-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors min-h-[44px]" href="tel:032-501-1140">
+          <span class="material-symbols-outlined text-[18px]">call</span>
+          <span>빠른 전화 연결</span>
+        </a>
+        <a class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary hover:bg-primary-container transition-colors" href="admin.html" title="관리자">
+          <span class="material-symbols-outlined text-[20px]">person</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full pt-28 pb-20 bg-surface">
+    <div class="max-w-4xl mx-auto px-gutter flex flex-col gap-space-lg" id="detail-container">
+      <div class="flex items-center justify-between">
+        <a href="news.html" class="inline-flex items-center gap-1 text-sm font-bold text-primary hover:text-primary-container transition-colors min-h-[44px]">
+          <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+          <span>목록으로 돌아가기</span>
+        </a>
+        <div id="admin-actions" class="hidden items-center gap-2">
+          <a id="edit-btn" href="#" class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface text-xs font-bold hover:bg-primary hover:text-on-primary transition-colors flex items-center gap-1 min-h-[44px]">
+            <span class="material-symbols-outlined text-[16px]">edit</span>
+            <span>수정</span>
+          </a>
+          <button id="delete-btn" class="px-3 py-1.5 rounded-lg bg-error-container text-on-error-container text-xs font-bold hover:bg-error hover:text-on-error transition-colors flex items-center gap-1 min-h-[44px]">
+            <span class="material-symbols-outlined text-[16px]">delete</span>
+            <span>삭제</span>
+          </button>
+        </div>
+      </div>
+
+      <article class="bg-surface-container-low p-6 md:p-10 rounded-3xl shadow-sm flex flex-col gap-6">
+        <div class="flex flex-col gap-3 border-b border-outline-variant/30 pb-6">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span id="post-category" class="px-3 py-1 rounded-md bg-primary-fixed text-on-primary-fixed font-bold text-xs">카테고리</span>
+            <span id="post-date" class="text-xs text-outline">날짜</span>
+            <span class="text-xs text-outline">•</span>
+            <span id="post-views" class="text-xs text-outline flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">visibility</span> 0
+            </span>
+          </div>
+          <h1 id="post-title" class="font-headline-md text-2xl md:text-3xl font-bold text-on-surface leading-tight">제목을 불러오는 중입니다...</h1>
+        </div>
+
+        <div id="post-image-container" class="hidden w-full rounded-2xl overflow-hidden aspect-video bg-cover bg-center shadow-md"></div>
+
+        <div id="post-content" class="leading-relaxed text-on-surface-variant text-base md:text-lg"></div>
+      </article>
+
+      <div class="bg-surface-container p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-full bg-cover bg-center shrink-0 border-2 border-primary/20" style="background-image: url('agent.jpg');"></div>
+          <div>
+            <span class="text-xs text-primary font-bold">DH 골드 부동산</span>
+            <h4 class="text-sm font-bold text-on-surface">고정숙 대표 공인중개사</h4>
+          </div>
+        </div>
+        <a href="tel:032-501-1140" class="w-full sm:w-auto bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary-container transition-colors min-h-[44px]">
+          <span class="material-symbols-outlined text-[18px]">call</span>
+          <span>이 소식에 관해 문의하기</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="w-full bg-surface-container-low py-space-xl">
+    <div class="max-w-7xl mx-auto px-gutter flex flex-col md:flex-row justify-between items-start md:items-center gap-space-lg">
+      <div class="flex flex-col gap-space-xs">
+        <span class="font-headline-sm text-headline-sm text-on-surface text-primary">DH 골드 부동산 공인중개사사무소</span>
+        <p class="font-body-sm text-on-surface-variant text-primary">인천광역시 부평구 장제로92번길 38, 102호 | 대표: 고정숙 | 등록번호: 제28237-2025-000051호</p>
+        <p class="font-body-sm text-on-surface-variant text-primary">전화: 032-501-1140 | 모바일: 010-3049-1140</p>
+      </div>
+      <div class="flex flex-col items-start md:items-end gap-2 font-body-sm text-on-surface-variant">
+        <div>&copy; 2025 DH골드부동산. All rights reserved.</div>
+        <a id="agent-login-btn" href="admin.html" class="text-xs text-outline hover:text-primary transition-colors flex items-center gap-1 min-h-[44px]">
+          <span class="material-symbols-outlined text-[14px]">admin_panel_settings</span>
+          <span>Agent Login</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md border-t border-outline-variant/30 px-4 py-2 flex items-center justify-around">
+    <a href="index.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary min-w-[50px] min-h-[44px]">
+      <span class="material-symbols-outlined text-[22px]">home</span>
+      <span class="text-[11px]">홈</span>
+    </a>
+    <a href="news.html" class="flex flex-col items-center justify-center text-primary min-w-[50px] min-h-[44px]">
+      <span class="material-symbols-outlined text-[22px]">feed</span>
+      <span class="text-[11px] font-bold">소식</span>
+    </a>
+    <a href="tel:032-501-1140" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary min-w-[50px] min-h-[44px]">
+      <span class="material-symbols-outlined text-[22px]">call</span>
+      <span class="text-[11px]">전화상담</span>
+    </a>
+    <a href="admin.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary min-w-[50px] min-h-[44px]">
+      <span class="material-symbols-outlined text-[22px]">manage_accounts</span>
+      <span class="text-[11px]">관리자</span>
+    </a>
+  </nav>
+
+  <script src="db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const params = new URLSearchParams(window.location.search);
+      const postId = params.get('id');
+
+      if (!postId) {
+        alert('존재하지 않는 게시글입니다.');
+        location.href = 'news.html';
+        return;
+      }
+
+      const post = await getPost(postId);
+      if (!post) {
+        alert('게시글을 찾을 수 없습니다.');
+        location.href = 'news.html';
+        return;
+      }
+
+      document.title = `${post.title} - DH 골드 부동산`;
+      document.getElementById('post-category').textContent = post.category || '일반';
+      document.getElementById('post-date').textContent = post.date || '';
+      document.getElementById('post-views').innerHTML = `<span class="material-symbols-outlined text-[14px]">visibility</span> ${(post.views || 0) + 1}`;
+      document.getElementById('post-title').textContent = post.title;
+
+      const imgElem = document.getElementById('post-image-container');
+      if (post.image) {
+        imgElem.style.backgroundImage = `url('${escapeHtml(post.image)}')`;
+        imgElem.classList.remove('hidden');
+      }
+
+      const contentElem = document.getElementById('post-content');
+      contentElem.innerHTML = renderMarkdown(post.content);
+
+      if (isAdmin()) {
+        const actionsElem = document.getElementById('admin-actions');
+        actionsElem.classList.remove('hidden');
+        actionsElem.classList.add('flex');
+
+        const editBtn = document.getElementById('edit-btn');
+        editBtn.href = `news-write.html?id=${encodeURIComponent(post.id)}`;
+
+        const deleteBtn = document.getElementById('delete-btn');
+        deleteBtn.addEventListener('click', async () => {
+          if (confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
+            await deletePost(post.id);
+            alert('게시글이 삭제되었습니다.');
+            location.href = 'news.html';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
