@@ -26,5 +26,5 @@ Allow: /
 User-agent: Yeti
 Allow: /
 
-Sitemap: https://landingpage-dh-089a.vercel.app/sitemap.xml
+Sitemap: https://landingpage1-dh-089a.vercel.app/sitemap.xml
 Sitemap: /sitemap.xml
