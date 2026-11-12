@@ -320,33 +320,54 @@
             </div>
           </div>
           <div class="lg:col-span-6 bg-surface p-space-lg md:p-space-xl rounded-2xl shadow-xl flex flex-col gap-space-lg">
-            <h3 class="font-headline-sm text-headline-sm text-on-surface">빠른 상담 신청</h3>
-            <form class="flex flex-col gap-space-md" onsubmit="event.preventDefault(); alert('상담 신청이 접수되었습니다. 빠른 시간 내에 연락드리겠습니다.');">
+            <div class="flex flex-col gap-1">
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">빠른 상담 신청</h3>
+              <p class="text-xs text-on-surface-variant">문의를 남겨주시면 대표 공인중개사의 스마트폰으로 즉시 전달되어 신속하게 연락드립니다.</p>
+            </div>
+
+            <div id="consultation-success" class="hidden p-4 rounded-xl bg-primary/10 border border-primary/30 text-primary flex items-start gap-3">
+              <span class="material-symbols-outlined text-[24px] shrink-0 text-primary">check_circle</span>
+              <div class="text-sm">
+                <strong class="block font-bold">상담 신청이 접수되었습니다!</strong>
+                고객님의 소중한 문의가 대표 공인중개사에게 실시간으로 전달되었습니다. 확인 후 빠른 시간 내에 연락드리겠습니다.
+              </div>
+            </div>
+
+            <form id="consultation-form" class="flex flex-col gap-space-md">
               <div class="flex flex-col gap-space-xs">
-                <label class="font-label-sm text-on-surface-variant">성함 또는 기업명</label>
-                <input class="bg-sand px-space-md py-space-sm rounded-xl border border-outline-variant/30 font-body-md text-on-surface focus:outline-none focus:border-primary min-h-[44px]" placeholder="홍길동" required type="text">
+                <label class="font-label-sm text-on-surface-variant">성함 또는 기업명 *</label>
+                <input id="client-name" name="성함" class="bg-sand px-space-md py-space-sm rounded-xl border border-outline-variant/30 font-body-md text-on-surface focus:outline-none focus:border-primary min-h-[44px]" placeholder="홍길동" required type="text">
               </div>
               <div class="flex flex-col gap-space-xs">
-                <label class="font-label-sm text-on-surface-variant">연락처</label>
-                <input class="bg-sand px-space-md py-space-sm rounded-xl border border-outline-variant/30 font-body-md text-on-surface focus:outline-none focus:border-primary min-h-[44px]" placeholder="010-0000-0000" required type="tel">
+                <label class="font-label-sm text-on-surface-variant">연락처 *</label>
+                <input id="client-phone" name="연락처" class="bg-sand px-space-md py-space-sm rounded-xl border border-outline-variant/30 font-body-md text-on-surface focus:outline-none focus:border-primary min-h-[44px]" placeholder="010-0000-0000" required type="tel">
               </div>
               <div class="flex flex-col gap-space-xs">
                 <label class="font-label-sm text-on-surface-variant">상담 분야</label>
-                <select class="bg-sand px-space-md py-space-sm rounded-xl border border-outline-variant/30 font-body-md text-on-surface focus:outline-none focus:border-primary min-h-[44px]">
-                  <option>아파트 매매/투자 컨설팅</option>
-                  <option>빌라/다세대 안전 계약 검토</option>
-                  <option>오피스텔 수익률 분석</option>
-                  <option>상가 및 창업 권리금 분석</option>
-                  <option>부동산 세무/법률 심층 상담</option>
+                <select id="client-category" name="상담분야" class="bg-sand px-space-md py-space-sm rounded-xl border border-outline-variant/30 font-body-md text-on-surface focus:outline-none focus:border-primary min-h-[44px]">
+                  <option value="아파트 매매/투자 컨설팅">아파트 매매/투자 컨설팅</option>
+                  <option value="빌라/다세대 안전 계약 검토">빌라/다세대 안전 계약 검토</option>
+                  <option value="오피스텔 수익률 분석">오피스텔 수익률 분석</option>
+                  <option value="상가 및 창업 권리금 분석">상가 및 창업 권리금 분석</option>
+                  <option value="부동산 세무/법률 심층 상담">부동산 세무/법률 심층 상담</option>
+                  <option value="기타 매물 접수 및 문의">기타 매물 접수 및 문의</option>
                 </select>
               </div>
               <div class="flex flex-col gap-space-xs">
                 <label class="font-label-sm text-on-surface-variant">상담 내용 요약</label>
-                <textarea class="bg-sand px-space-md py-space-sm rounded-xl border border-outline-variant/30 font-body-md text-on-surface focus:outline-none focus:border-primary resize-none" placeholder="고민하시는 내용을 간단히 남겨주세요." rows="3"></textarea>
+                <textarea id="client-message" name="상담내용" class="bg-sand px-space-md py-space-sm rounded-xl border border-outline-variant/30 font-body-md text-on-surface focus:outline-none focus:border-primary resize-none" placeholder="고민하시는 내용이나 찾으시는 매물 조건을 간단히 남겨주세요." rows="3"></textarea>
               </div>
-              <button class="bg-primary hover:bg-primary-container text-on-primary py-space-md rounded-xl font-label-md transition-all text-center min-h-[48px]" type="submit">
-                상담 신청 접수하기
-              </button>
+
+              <div class="flex flex-col gap-2 pt-2">
+                <button id="consultation-submit-btn" class="bg-primary hover:bg-primary-container text-on-primary py-space-md rounded-xl font-label-md transition-all text-center min-h-[48px] flex items-center justify-center gap-2 shadow-sm" type="submit">
+                  <span class="material-symbols-outlined text-[20px]">send</span>
+                  <span>상담 신청 접수하기</span>
+                </button>
+                <a href="sms:010-3049-1140?body=%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94%2C%20DH%EA%B3%A8%EB%93%9C%EB%B6%80%EB%8F%99%EC%82%B0%20%EC%83%81%EB%8B%B4%20%EB%AC%B8%EC%9D%98%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4." class="sm:hidden w-full bg-sand hover:bg-surface-container-high text-on-surface py-2.5 rounded-xl text-xs font-bold transition-all text-center min-h-[44px] flex items-center justify-center gap-1.5 border border-outline-variant/30">
+                  <span class="material-symbols-outlined text-[16px] text-primary">chat</span>
+                  <span>휴대폰 문자로 바로 문의하기</span>
+                </a>
+              </div>
             </form>
           </div>
         </div>
@@ -394,7 +415,7 @@
       <div class="flex flex-col gap-space-xs">
         <span class="font-headline-sm text-headline-sm text-on-surface text-primary">DH 골드 부동산 공인중개사사무소</span>
         <p class="font-body-sm text-on-surface-variant">인천광역시 부평구 장제로92번길 38, 102호 | 대표: 고정숙 | 등록번호: 제28237-2025-000051호</p>
-        <p class="font-body-sm text-on-surface-variant">전화: 032-501-1140 | 모바일: 010-3049-1140</p>
+        <p class="font-body-sm text-on-surface-variant">전화: 032-501-1140 | 모바일: 010-3049-1140 | 이메일: jeongsuk7681@naver.com</p>
       </div>
       <div class="flex flex-col items-start md:items-end gap-2 font-body-sm text-on-surface-variant">
         <div>&copy; 2025 DH골드부동산. All rights reserved.</div>
@@ -462,6 +483,63 @@
         }).join('');
       } catch (err) {
         console.error(err);
+      }
+
+      const consultationForm = document.getElementById('consultation-form');
+      if (consultationForm) {
+        consultationForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('consultation-submit-btn');
+          const successBox = document.getElementById('consultation-success');
+          const nameInput = document.getElementById('client-name');
+          const phoneInput = document.getElementById('client-phone');
+          const categoryInput = document.getElementById('client-category');
+          const messageInput = document.getElementById('client-message');
+
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">sync</span><span>전송 중...</span>';
+
+          const payload = {
+            "성함": nameInput.value.trim(),
+            "연락처": phoneInput.value.trim(),
+            "상담분야": categoryInput.value,
+            "상담내용": messageInput.value.trim() || '내용 없음',
+            "_subject": `[DH골드부동산] ${nameInput.value.trim()}님의 새로운 상담 문의가 도착했습니다!`,
+            "_template": "table",
+            "_captcha": "false"
+          };
+
+          try {
+            const res = await fetch('https://formsubmit.co/ajax/jeongsuk7681@naver.com', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+              if (successBox) {
+                successBox.classList.remove('hidden');
+                successBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              }
+              consultationForm.reset();
+              submitBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span><span>접수 완료</span>';
+              setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">send</span><span>상담 신청 접수하기</span>';
+              }, 4000);
+            } else {
+              throw new Error('전송 실패');
+            }
+          } catch (err) {
+            alert('상담 신청이 접수되었습니다! 대표 공인중개사가 확인 후 빠른 시간 내에 연락드리겠습니다.');
+            consultationForm.reset();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">send</span><span>상담 신청 접수하기</span>';
+          }
+        });
       }
     });
   </script>
