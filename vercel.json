@@ -1,5 +1,16 @@
 {
   "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "index, follow"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     { "source": "/news", "destination": "/news.html" },
     { "source": "/news-detail", "destination": "/news-detail.html" },
