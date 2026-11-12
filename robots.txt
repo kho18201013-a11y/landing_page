@@ -26,5 +26,5 @@ Allow: /
 User-agent: Yeti
 Allow: /
 
-Sitemap: https://landing-page-taupe-kappa.vercel.app/sitemap.xml
+Sitemap: https://landingpage-dh-089a.vercel.app/sitemap.xml
 Sitemap: /sitemap.xml

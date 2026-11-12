@@ -39,10 +39,10 @@
 - 권리금 감정 및 안전 계약 특약 작성, 상가건물 임대차보호법 권리 보호
 
 ## 4. 사이트 구조 및 엔드포인트
-- `https://landing-page-taupe-kappa.vercel.app/` : 메인 랜딩 페이지 (전문 분야, 최신 소식 미리보기, 1:1 상담 신청 폼)
-- `https://landing-page-taupe-kappa.vercel.app/news` : 부평 부동산 뉴스 & 정보 게시판 (실시간 검색 및 카테고리 필터)
-- `https://landing-page-taupe-kappa.vercel.app/news-detail?id=5` : 대표 공인중개사 인사말 및 상담 안내
-- `https://landing-page-taupe-kappa.vercel.app/news-detail?id=1` : 2026 부평구 정비사업 및 호재 분석
-- `https://landing-page-taupe-kappa.vercel.app/news-detail?id=2` : 상가 임대차 보호법 개정 가이드
-- `https://landing-page-taupe-kappa.vercel.app/news-detail?id=3` : 사무소 이전 및 봄철 이사 수요 맞춤 상담 안내
-- `https://landing-page-taupe-kappa.vercel.app/news-detail?id=4` : 인천시 도시철도망 계획과 부평구 수혜 지역 분석
+- `https://landingpage-dh-089a.vercel.app/` : 메인 랜딩 페이지 (전문 분야, 최신 소식 미리보기, 1:1 상담 신청 폼)
+- `https://landingpage-dh-089a.vercel.app/news` : 부평 부동산 뉴스 & 정보 게시판 (실시간 검색 및 카테고리 필터)
+- `https://landingpage-dh-089a.vercel.app/news-detail?id=5` : 대표 공인중개사 인사말 및 상담 안내
+- `https://landingpage-dh-089a.vercel.app/news-detail?id=1` : 2026 부평구 정비사업 및 호재 분석
+- `https://landingpage-dh-089a.vercel.app/news-detail?id=2` : 상가 임대차 보호법 개정 가이드
+- `https://landingpage-dh-089a.vercel.app/news-detail?id=3` : 사무소 이전 및 봄철 이사 수요 맞춤 상담 안내
+- `https://landingpage-dh-089a.vercel.app/news-detail?id=4` : 인천시 도시철도망 계획과 부평구 수혜 지역 분석
