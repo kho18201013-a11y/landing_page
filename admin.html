@@ -229,7 +229,7 @@
 
         const inputPw = document.getElementById('password-input').value.trim();
         const config = await loadConfig();
-        const expectedPw = config.admin_password || 'admin1234';
+        const expectedPw = String(config.admin_password || 'admin1234').trim();
 
         if (inputPw === expectedPw) {
           sessionStorage.setItem('isAdmin', 'true');
