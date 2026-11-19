@@ -171,6 +171,10 @@
           <h1 class="font-headline-sm text-2xl font-bold text-on-surface">게시글 관리 대시보드</h1>
         </div>
         <div class="flex items-center gap-3">
+          <button id="quick-upload-btn" type="button" class="bg-sand hover:bg-surface-container-high text-on-surface px-4 py-2.5 rounded-xl text-sm font-bold transition-all border border-outline-variant/30 flex items-center gap-1.5 min-h-[44px]">
+            <span class="material-symbols-outlined text-[18px] text-primary">add_photo_alternate</span>
+            <span>사진 업로드</span>
+          </button>
           <a href="news-write.html" class="bg-primary hover:bg-primary-container text-on-primary px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-sm flex items-center gap-2 min-h-[44px]">
             <span class="material-symbols-outlined text-[18px]">edit_note</span>
             <span>새 글 작성</span>
@@ -200,6 +204,45 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    <!-- 이미지 업로드 팝업 모달 -->
+    <div id="upload-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-surface-container-low max-w-lg w-full rounded-3xl p-6 md:p-8 shadow-2xl border border-outline-variant/30 flex flex-col gap-5">
+        <div class="flex items-center justify-between border-b border-outline-variant/30 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-[24px]">cloud_upload</span>
+            <h3 class="font-headline-sm text-lg font-bold text-on-surface">사진 업로드 &amp; 링크 복사</h3>
+          </div>
+          <button id="close-modal-btn" type="button" class="text-outline hover:text-on-surface p-1 rounded-lg">
+            <span class="material-symbols-outlined text-[20px]">close</span>
+          </button>
+        </div>
+
+        <input type="file" id="modal-file-input" accept="image/*" class="hidden">
+        <div id="modal-dropzone" class="border-2 border-dashed border-outline-variant/60 hover:border-primary bg-sand/40 hover:bg-sand rounded-2xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all text-center">
+          <div class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-[28px]">add_photo_alternate</span>
+          </div>
+          <span class="text-sm font-bold text-on-surface">클릭하여 사진 파일 선택</span>
+          <span class="text-xs text-outline">또는 사진을 이곳으로 끌어다 놓으세요</span>
+          <div id="modal-upload-status" class="hidden text-xs font-bold text-primary flex items-center gap-1 mt-1">
+            <span class="material-symbols-outlined text-[16px] animate-spin">sync</span>
+            <span id="modal-upload-status-text">업로드 중...</span>
+          </div>
+        </div>
+
+        <!-- 업로드 결과 표시 영역 -->
+        <div id="modal-result" class="hidden flex flex-col gap-3 p-4 bg-sand rounded-2xl border border-outline-variant/30">
+          <div class="w-full aspect-video rounded-xl overflow-hidden bg-cover bg-center shadow-sm" id="modal-result-preview"></div>
+          <div class="flex items-center gap-2">
+            <input type="text" id="modal-result-url" readonly class="bg-surface px-3 py-2 rounded-xl border border-outline-variant/30 text-xs text-on-surface flex-grow focus:outline-none">
+            <button type="button" id="copy-url-btn" class="bg-primary hover:bg-primary-container text-on-primary px-4 py-2 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 transition-all">
+              <span class="material-symbols-outlined text-[16px]">content_copy</span>
+              <span id="copy-btn-text">URL 복사</span>
+            </button>
+          </div>
+          <p class="text-[11px] text-outline">✓ 위 링크를 복사하여 글 작성 시 대표 이미지나 본문에 붙여넣으실 수 있습니다.</p>
         </div>
       </div>
     </div>
@@ -243,6 +286,94 @@
       logoutBtn.addEventListener('click', () => {
         sessionStorage.removeItem('isAdmin');
         location.reload();
+      });
+
+      // 이미지 업로드 모달 이벤트
+      const uploadModal = document.getElementById('upload-modal');
+      const quickUploadBtn = document.getElementById('quick-upload-btn');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const modalDropzone = document.getElementById('modal-dropzone');
+      const modalFileInput = document.getElementById('modal-file-input');
+      const modalUploadStatus = document.getElementById('modal-upload-status');
+      const modalUploadStatusText = document.getElementById('modal-upload-status-text');
+      const modalResult = document.getElementById('modal-result');
+      const modalResultPreview = document.getElementById('modal-result-preview');
+      const modalResultUrl = document.getElementById('modal-result-url');
+      const copyUrlBtn = document.getElementById('copy-url-btn');
+      const copyBtnText = document.getElementById('copy-btn-text');
+
+      if (quickUploadBtn) {
+        quickUploadBtn.addEventListener('click', () => {
+          uploadModal.classList.remove('hidden');
+        });
+      }
+
+      if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', () => {
+          uploadModal.classList.add('hidden');
+        });
+      }
+
+      uploadModal.addEventListener('click', (e) => {
+        if (e.target === uploadModal) {
+          uploadModal.classList.add('hidden');
+        }
+      });
+
+      modalDropzone.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'INPUT') modalFileInput.click();
+      });
+
+      async function handleModalUpload(file) {
+        if (!file || !file.type.startsWith('image/')) {
+          alert('이미지 파일(JPG, PNG, WebP 등)만 업로드 가능합니다.');
+          return;
+        }
+        modalUploadStatus.classList.remove('hidden');
+        modalResult.classList.add('hidden');
+
+        try {
+          const url = await uploadImage(file, (msg) => {
+            modalUploadStatusText.textContent = msg;
+          });
+          modalResultUrl.value = url;
+          modalResultPreview.style.backgroundImage = `url('${url}')`;
+          modalResult.classList.remove('hidden');
+          modalUploadStatusText.textContent = '업로드 완료!';
+          setTimeout(() => modalUploadStatus.classList.add('hidden'), 2000);
+        } catch (err) {
+          alert('이미지 업로드 실패: ' + err.message);
+          modalUploadStatus.classList.add('hidden');
+        }
+      }
+
+      modalFileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleModalUpload(e.target.files[0]);
+          e.target.value = '';
+        }
+      });
+
+      modalDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        modalDropzone.classList.add('border-primary', 'bg-sand');
+      });
+      modalDropzone.addEventListener('dragleave', () => {
+        modalDropzone.classList.remove('border-primary', 'bg-sand');
+      });
+      modalDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        modalDropzone.classList.remove('border-primary', 'bg-sand');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleModalUpload(e.dataTransfer.files[0]);
+        }
+      });
+
+      copyUrlBtn.addEventListener('click', () => {
+        modalResultUrl.select();
+        navigator.clipboard.writeText(modalResultUrl.value);
+        copyBtnText.textContent = '복사됨! ✓';
+        setTimeout(() => { copyBtnText.textContent = 'URL 복사'; }, 2000);
       });
     });
 

@@ -166,20 +166,88 @@
           <input id="post-title" required class="bg-sand px-4 py-3 rounded-xl border border-outline-variant/30 font-body-md text-on-surface focus:outline-none focus:border-primary min-h-[44px]" placeholder="게시글 제목을 입력하세요" type="text">
         </div>
 
-        <div class="flex flex-col gap-1.5">
-          <label class="text-sm font-bold text-on-surface">대표 이미지 URL (선택사항)</label>
-          <input id="post-image" class="bg-sand px-4 py-3 rounded-xl border border-outline-variant/30 font-body-md text-on-surface focus:outline-none focus:border-primary min-h-[44px]" placeholder="https://... (비워두실 경우 기본 이미지가 적용됩니다)" type="url">
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <label class="text-sm font-bold text-on-surface flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px] text-primary">image</span>
+              <span>대표 이미지 (썸네일)</span>
+            </label>
+            <span class="text-xs text-outline">컴퓨터/모바일 사진 업로드 또는 URL 입력</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-start">
+            <div class="md:col-span-2 flex flex-col gap-2">
+              <input type="file" id="image-file-input" accept="image/*" class="hidden">
+              <div id="image-dropzone" class="border-2 border-dashed border-outline-variant/60 hover:border-primary bg-sand/40 hover:bg-sand rounded-2xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all text-center group min-h-[110px]">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-sm font-bold text-on-surface">클릭하여 사진 파일 선택</span>
+                  <span class="text-xs text-outline">또는 여기에 사진을 끌어다 놓으세요 (JPG, PNG, WEBP 등)</span>
+                </div>
+                <div id="upload-status" class="hidden text-xs font-bold text-primary flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px] animate-spin">sync</span>
+                  <span id="upload-status-text">업로드 중...</span>
+                </div>
+              </div>
+              
+              <!-- URL 직접 입력 & 초기화 -->
+              <div class="flex items-center gap-2">
+                <input id="post-image" class="bg-sand px-3 py-2 rounded-xl border border-outline-variant/30 font-body-sm text-xs text-on-surface focus:outline-none focus:border-primary flex-grow" placeholder="이미지 URL 직접 입력 (https://...)" type="text">
+                <button type="button" id="clear-image-btn" class="hidden px-3 py-2 rounded-xl bg-surface-container text-xs font-bold text-outline hover:text-error hover:bg-error-container transition-colors shrink-0 flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">delete</span>
+                  <span>사진 제거</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 미리보기 박스 -->
+            <div class="flex flex-col items-center justify-center">
+              <div id="image-preview-wrapper" class="w-full aspect-video rounded-2xl border border-outline-variant/30 bg-sand flex flex-col items-center justify-center overflow-hidden relative shadow-inner">
+                <img id="image-preview" src="" alt="대표 이미지 미리보기" class="hidden w-full h-full object-cover">
+                <div id="image-preview-placeholder" class="flex flex-col items-center text-center p-3 text-outline">
+                  <span class="material-symbols-outlined text-[32px] mb-1">hide_image</span>
+                  <span class="text-xs font-bold">대표 이미지 없음</span>
+                  <span class="text-[10px] text-outline/70">(미등록 시 기본 이미지 자동 적용)</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="flex flex-col gap-1.5">
-          <div class="flex items-center justify-between">
-            <label class="text-sm font-bold text-on-surface">본문 내용 (마크다운 지원) *</label>
-            <button type="button" id="preview-toggle-btn" class="text-xs font-bold text-primary hover:underline">
-              미리보기 전환
-            </button>
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <label class="text-sm font-bold text-on-surface flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px] text-primary">edit_note</span>
+              <span>본문 내용 (마크다운 지원) *</span>
+            </label>
+            
+            <!-- 본문 툴바 -->
+            <div class="flex items-center gap-2">
+              <input type="file" id="content-image-input" accept="image/*" multiple class="hidden">
+              <button type="button" id="insert-image-btn" class="px-3 py-1.5 rounded-xl bg-primary/10 text-primary hover:bg-primary hover:text-on-primary transition-colors text-xs font-bold flex items-center gap-1 shadow-sm min-h-[36px]">
+                <span class="material-symbols-outlined text-[16px]">add_photo_alternate</span>
+                <span>본문에 사진 삽입</span>
+              </button>
+              <button type="button" id="preview-toggle-btn" class="px-3 py-1.5 rounded-xl bg-sand text-on-surface hover:bg-surface-container-high transition-colors text-xs font-bold flex items-center gap-1 min-h-[36px]">
+                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                <span>미리보기</span>
+              </button>
+            </div>
           </div>
-          <textarea id="post-content" required rows="14" class="bg-sand p-4 rounded-xl border border-outline-variant/30 font-mono text-sm text-on-surface focus:outline-none focus:border-primary resize-y" placeholder="# 큰 제목&#10;## 중간 제목&#10;- 목록 1&#10;- 목록 2&#10;&#10;**굵은 글씨**나 [링크](https://...)도 지원됩니다."></textarea>
+
+          <div id="content-upload-status" class="hidden px-3 py-2 rounded-xl bg-primary-fixed text-on-primary-fixed text-xs font-bold flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px] animate-spin">sync</span>
+            <span id="content-upload-status-text">본문 사진을 최적화하여 서버에 저장하고 있습니다...</span>
+          </div>
+
+          <textarea id="post-content" required rows="14" class="bg-sand p-4 rounded-xl border border-outline-variant/30 font-mono text-sm text-on-surface focus:outline-none focus:border-primary resize-y" placeholder="# 큰 제목&#10;## 중간 제목&#10;- 목록 작성...&#10;&#10;💡 [본문에 사진 삽입] 버튼을 누르거나, 사진 파일을 여기에 끌어다 놓거나, 화면 캡처 후 Ctrl+V로 붙여넣으실 수 있습니다!"></textarea>
           <div id="preview-area" class="hidden bg-surface p-6 rounded-xl border border-outline-variant/30 min-h-[300px]"></div>
+          <p class="text-[11px] text-outline flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">info</span>
+            <span>팁: 사진을 입력창에 직접 <b>드래그&드롭</b>하거나, 클립보드 캡처 이미지를 <b>Ctrl+V</b>로 붙여넣어도 자동 삽입됩니다.</span>
+          </p>
         </div>
 
         <div class="flex items-center justify-end gap-3 pt-4 border-t border-outline-variant/30">
@@ -199,7 +267,172 @@
     let isEditing = false;
     let editId = null;
 
+    function insertTextAtCursor(textarea, text) {
+      const startPos = textarea.selectionStart;
+      const endPos = textarea.selectionEnd;
+      const val = textarea.value;
+      textarea.value = val.substring(0, startPos) + text + val.substring(endPos);
+      textarea.selectionStart = textarea.selectionEnd = startPos + text.length;
+      textarea.focus();
+    }
+
     document.addEventListener('DOMContentLoaded', async () => {
+      const postImageInput = document.getElementById('post-image');
+      const imagePreview = document.getElementById('image-preview');
+      const imagePlaceholder = document.getElementById('image-preview-placeholder');
+      const clearImageBtn = document.getElementById('clear-image-btn');
+      const imageDropzone = document.getElementById('image-dropzone');
+      const imageFileInput = document.getElementById('image-file-input');
+      const uploadStatus = document.getElementById('upload-status');
+      const uploadStatusText = document.getElementById('upload-status-text');
+
+      const contentTextarea = document.getElementById('post-content');
+      const insertImageBtn = document.getElementById('insert-image-btn');
+      const contentImageInput = document.getElementById('content-image-input');
+      const contentUploadStatus = document.getElementById('content-upload-status');
+      const contentUploadStatusText = document.getElementById('content-upload-status-text');
+
+      function updateImagePreview(url) {
+        const cleanUrl = (url || '').trim();
+        if (cleanUrl) {
+          imagePreview.src = cleanUrl;
+          imagePreview.classList.remove('hidden');
+          imagePlaceholder.classList.add('hidden');
+          clearImageBtn.classList.remove('hidden');
+        } else {
+          imagePreview.src = '';
+          imagePreview.classList.add('hidden');
+          imagePlaceholder.classList.remove('hidden');
+          clearImageBtn.classList.add('hidden');
+        }
+      }
+
+      postImageInput.addEventListener('input', (e) => {
+        updateImagePreview(e.target.value);
+      });
+
+      clearImageBtn.addEventListener('click', () => {
+        postImageInput.value = '';
+        updateImagePreview('');
+      });
+
+      // 대표 이미지 파일 업로드 핸들러
+      async function handleRepresentativeUpload(file) {
+        if (!file || !file.type.startsWith('image/')) {
+          alert('이미지 파일(JPG, PNG, WebP 등)만 업로드 가능합니다.');
+          return;
+        }
+        uploadStatus.classList.remove('hidden');
+        try {
+          const url = await uploadImage(file, (msg) => {
+            uploadStatusText.textContent = msg;
+          });
+          postImageInput.value = url;
+          updateImagePreview(url);
+          uploadStatusText.textContent = '업로드 완료!';
+          setTimeout(() => uploadStatus.classList.add('hidden'), 2000);
+        } catch (err) {
+          alert('이미지 업로드 중 오류가 발생했습니다: ' + err.message);
+          uploadStatus.classList.add('hidden');
+        }
+      }
+
+      imageDropzone.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'INPUT') imageFileInput.click();
+      });
+
+      imageFileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleRepresentativeUpload(e.target.files[0]);
+          e.target.value = '';
+        }
+      });
+
+      imageDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        imageDropzone.classList.add('border-primary', 'bg-sand');
+      });
+      imageDropzone.addEventListener('dragleave', () => {
+        imageDropzone.classList.remove('border-primary', 'bg-sand');
+      });
+      imageDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        imageDropzone.classList.remove('border-primary', 'bg-sand');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleRepresentativeUpload(e.dataTransfer.files[0]);
+        }
+      });
+
+      // 본문 사진 다중 업로드 & 마크다운 삽입 핸들러
+      async function handleContentImageUpload(files) {
+        const imageFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
+        if (imageFiles.length === 0) return;
+
+        contentUploadStatus.classList.remove('hidden');
+        for (let i = 0; i < imageFiles.length; i++) {
+          const file = imageFiles[i];
+          contentUploadStatusText.textContent = `사진 ${i + 1}/${imageFiles.length} 업로드 중 (${file.name})...`;
+          try {
+            const url = await uploadImage(file);
+            const imgAlt = file.name.replace(/\.[^.]+$/, '');
+            const markdownCode = `\n\n![${imgAlt}](${url})\n\n`;
+            insertTextAtCursor(contentTextarea, markdownCode);
+          } catch (err) {
+            console.error('본문 이미지 업로드 실패:', err);
+            alert(`${file.name} 업로드 실패: ${err.message}`);
+          }
+        }
+        contentUploadStatusText.textContent = '본문 사진 삽입이 완료되었습니다!';
+        setTimeout(() => contentUploadStatus.classList.add('hidden'), 2000);
+      }
+
+      insertImageBtn.addEventListener('click', () => {
+        contentImageInput.click();
+      });
+
+      contentImageInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+          handleContentImageUpload(e.target.files);
+          e.target.value = '';
+        }
+      });
+
+      // 본문 Textarea에 직접 드래그앤드롭
+      contentTextarea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        contentTextarea.classList.add('border-primary');
+      });
+      contentTextarea.addEventListener('dragleave', () => {
+        contentTextarea.classList.remove('border-primary');
+      });
+      contentTextarea.addEventListener('drop', (e) => {
+        contentTextarea.classList.remove('border-primary');
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          const imgs = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+          if (imgs.length > 0) {
+            e.preventDefault();
+            handleContentImageUpload(imgs);
+          }
+        }
+      });
+
+      // 본문 Textarea 클립보드 붙여넣기(Ctrl+V) 지원
+      contentTextarea.addEventListener('paste', (e) => {
+        const items = (e.clipboardData || window.clipboardData).items;
+        const imgFiles = [];
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf('image') !== -1) {
+            const f = items[i].getAsFile();
+            if (f) imgFiles.push(f);
+          }
+        }
+        if (imgFiles.length > 0) {
+          e.preventDefault();
+          handleContentImageUpload(imgFiles);
+        }
+      });
+
+      // 기존 글 수정 파라미터 로드
       const params = new URLSearchParams(window.location.search);
       editId = params.get('id');
 
@@ -212,6 +445,7 @@
           document.getElementById('post-title').value = post.title || '';
           document.getElementById('post-category').value = post.category || '공인중개사 소식';
           document.getElementById('post-image').value = post.image || '';
+          updateImagePreview(post.image);
           document.getElementById('post-content').value = post.content || '';
         } else {
           alert('수정할 게시글을 찾을 수 없습니다.');
@@ -220,7 +454,6 @@
       }
 
       const previewToggleBtn = document.getElementById('preview-toggle-btn');
-      const contentTextarea = document.getElementById('post-content');
       const previewArea = document.getElementById('preview-area');
       let showingPreview = false;
 
@@ -230,11 +463,11 @@
           previewArea.innerHTML = renderMarkdown(contentTextarea.value);
           previewArea.classList.remove('hidden');
           contentTextarea.classList.add('hidden');
-          previewToggleBtn.textContent = '편집기로 돌아가기';
+          previewToggleBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">edit</span><span>편집기로 복귀</span>';
         } else {
           previewArea.classList.add('hidden');
           contentTextarea.classList.remove('hidden');
-          previewToggleBtn.textContent = '미리보기 전환';
+          previewToggleBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">visibility</span><span>미리보기</span>';
         }
       });
 

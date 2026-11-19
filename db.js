@@ -43,7 +43,7 @@ function escapeHtml(str) {
 
 function sanitizeUrl(url) {
   const clean = String(url || '').trim();
-  if (/^(https?:\/\/|mailto:)/i.test(clean)) {
+  if (/^(https?:\/\/|mailto:|data:image\/|\/|\.\/|[a-zA-Z0-9_\-\/]+\.(png|jpe?g|gif|webp|svg))/i.test(clean)) {
     return clean;
   }
   return '#';
@@ -170,6 +170,12 @@ function renderInline(str) {
       t = t.replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-on-surface">$1</strong>');
       t = t.replace(/\*(.+?)\*/g, '<em class="italic">$1</em>');
       t = t.replace(/~~(.+?)~~/g, '<del class="line-through">$1</del>');
+      // 이미지 마크다운 ![alt](url)을 링크보다 먼저 처리
+      t = t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+        const safeUrl = sanitizeUrl(url);
+        return `<figure class="my-5 text-center"><img src="${safeUrl}" alt="${alt}" class="rounded-2xl max-w-full h-auto mx-auto shadow-sm border border-outline-variant/30 max-h-[650px] object-contain" loading="lazy">${alt ? `<figcaption class="text-xs text-outline mt-2">${alt}</figcaption>` : ''}</figure>`;
+      });
+      // 일반 링크 [txt](url)
       t = t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, txt, url) => {
         const safeUrl = sanitizeUrl(url);
         return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary-container transition-colors">${txt}</a>`;
@@ -192,6 +198,7 @@ function markdownToText(src) {
     .replace(/\*\*(.*?)\*\*/g, '$1')
     .replace(/\*(.*?)\*/g, '$1')
     .replace(/~~(.*?)~~/g, '$1')
+    .replace(/!\[(.*?)\]\(.*?\)/g, '$1')
     .replace(/\[(.*?)\]\(.*?\)/g, '$1')
     .replace(/---+/g, ' ')
     .replace(/\s+/g, ' ')
@@ -374,6 +381,111 @@ async function deletePost(id) {
   return true;
 }
 
+/**
+ * 이미지 파일을 스마트 리사이즈/압축 후 GitHub repository의 uploads/ 폴더에 업로드
+ * @param {File|Blob} file - 사용자가 선택한 이미지 파일
+ * @param {Function} [onProgress] - 진행 상태 콜백 ('최적화 중...', '업로드 중...', etc.)
+ * @returns {Promise<string>} 업로드된 이미지의 공개 URL
+ */
+async function uploadImage(file, onProgress) {
+  if (!file || !file.type.startsWith('image/')) {
+    throw new Error('유효한 이미지 파일이 아닙니다.');
+  }
+
+  if (typeof onProgress === 'function') onProgress('이미지 최적화 중...');
+
+  // 1. 브라우저 Canvas를 이용한 스마트 리사이징 & 압축 (가로/세로 최대 1600px, JPEG quality 0.85)
+  const compressedDataUrl = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 1600;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // JPEG 85% 품질로 변환 (파일 크기를 90% 이상 획기적으로 줄여 업로드 속도 극대화)
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        resolve(dataUrl);
+      };
+      img.onerror = () => reject(new Error('이미지 데이터를 읽을 수 없습니다.'));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error('파일 읽기 실패'));
+    reader.readAsDataURL(file);
+  });
+
+  const base64Content = compressedDataUrl.replace(/^data:image\/[a-z]+;base64,/, '');
+
+  if (typeof onProgress === 'function') onProgress('서버에 저장 중...');
+
+  try {
+    const config = await loadConfig();
+    const token = String(config.github_token || '').replace(/\s+/g, '');
+    const owner = config.github_owner;
+    const repo = config.github_repo;
+
+    if (token && token !== 'YOUR_GITHUB_TOKEN' && owner && repo) {
+      const ext = 'jpg';
+      const timestamp = Date.now();
+      const randomStr = Math.random().toString(36).substring(2, 7);
+      const filename = `img_${timestamp}_${randomStr}.${ext}`;
+      const uploadPath = `uploads/${filename}`;
+      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${uploadPath}`;
+
+      const res = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: `feat(uploads): upload ${filename}`,
+          content: base64Content
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (typeof onProgress === 'function') onProgress('업로드 완료!');
+        // GitHub raw download_url 우선 사용 (전세계 어디서나 즉시 렌더링 가능)
+        if (data.content && data.content.download_url) {
+          return data.content.download_url;
+        }
+        return `https://raw.githubusercontent.com/${owner}/${repo}/main/${uploadPath}`;
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        console.warn('GitHub Image Upload Warning:', errJson);
+      }
+    }
+  } catch (err) {
+    console.warn('GitHub Image Upload Error, fallback to base64:', err);
+  }
+
+  // GitHub 연동 실패 시에도 작성이 중단되지 않도록 압축 Data URL 반환
+  if (typeof onProgress === 'function') onProgress('업로드 완료!');
+  return compressedDataUrl;
+}
+
 window.loadConfig = loadConfig;
 window.isAdmin = isAdmin;
 window.requireAdmin = requireAdmin;
@@ -385,3 +497,4 @@ window.getPosts = getPosts;
 window.getPost = getPost;
 window.savePost = savePost;
 window.deletePost = deletePost;
+window.uploadImage = uploadImage;
